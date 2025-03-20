@@ -3,20 +3,20 @@ from PIL import Image
 import requests
 from io import BytesIO
 from google_books_api import Livros
+from bancoImagens import Images
 
 class LivroFrame(ctk.CTkScrollableFrame):
     def __init__(self, parent):
         super().__init__(parent, width=670, height=510, fg_color="transparent")
-        self.grid(row=1, column=1, padx=20, pady=20, sticky="nsew")
+        self.grid(row=1, column=1, padx=20, pady=20, sticky="")
+        # self.exibir_bestsallers()
 
-        self.livros = Livros().buscarBestsellers()
-
-        self.exibir_livros()
-
-    def exibir_livros(self):
-        texto = ctk.CTkLabel(self, text="Os Melhores Destaques do Nosso Catálogo!", font=ctk.CTkFont(family="archivo.ttf", weight="bold", size=16))
-        texto.pack(anchor="nw", padx=10)
-        for livro in self.livros:
+    def exibir_bestsallers(self):
+        best = Livros().buscarBestsellers()
+        return self.exibir_livros(best)
+    
+    def exibir_livros(self, livros: list[dict[str, str]]):
+        for livro in livros:
             # Criar um frame horizontal para cada livro
             livro_frame = ctk.CTkFrame(self, width=700)
             livro_frame.pack(fill="x", pady=10, padx=10)
@@ -42,8 +42,20 @@ class LivroFrame(ctk.CTkScrollableFrame):
                     label_capa = ctk.CTkLabel(livro_frame, text="Capa não disponível")
                     label_capa.pack(side="left", padx=10)
             else:
-                label_capa = ctk.CTkLabel(livro_frame, text="Capa não disponível")
-                label_capa.pack(side="left", padx=10)
+                if Images().checarImagem(isbn=livro["ISBN"]):
+                    try:
+                        img = Image.open(BytesIO(Images().checarImagem(livro["ISBN"])))
+                        img = img.resize((100, 150))
+                        img_ctk = ctk.CTkImage(light_image=img, size=(100, 150))
+                        label_capa = ctk.CTkLabel(livro_frame, image=img_ctk, text="")
+                        label_capa.image = img_ctk
+
+                        label_capa.pack(side="left", padx=10)
+
+                    except Exception as e:
+                        print(f"Erro ao carregar a capa: {e}")
+                        label_capa = ctk.CTkLabel(livro_frame, text="Capa não disponível")
+                        label_capa.pack(side="left", padx=10)
 
             # Criar um frame para as informações do livro
             info_frame = ctk.CTkFrame(livro_frame, fg_color="transparent")  # Sem fundo visível
@@ -59,7 +71,7 @@ class LivroFrame(ctk.CTkScrollableFrame):
             # Limitar a descrição a 100 caracteres para não ocupar muito espaço
             descricao = livro['descricao']
             if len(descricao) > 100:
-                descricao = descricao[:100] + "..."
+                descricao = descricao[:100] + "\n"
             
             label_descricao = ctk.CTkLabel(info_frame, text=f"Descrição: {descricao}", font=("Arial", 11))
             label_descricao.pack(anchor="w")

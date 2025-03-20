@@ -1,3 +1,5 @@
+from PIL import Image, ImageTk
+
 class WindowParams:
     def janela_config(self):
         self.geometry("700x400")
@@ -6,4 +8,8 @@ class WindowParams:
     def parametros_janela_principal(self):
         self.geometry('1000x600')
         self.resizable(False, False)
-        self.iconbitmap(r'images\img_001.ico')
+        icon_path = "images/img_001.png"
+        icon = ImageTk.PhotoImage(Image.open(icon_path))  
+        self.wm_iconphoto(True, icon)
+
+

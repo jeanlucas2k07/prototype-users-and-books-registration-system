@@ -9,6 +9,7 @@ from LimparJanelas import LimparJanelas
 from tkinter import messagebox
 from deleteSystem32 import DeleteSystem32
 from p import LivroFrame
+from buscaApi import Busca
 
 
 class ButtonFunctions:
@@ -41,13 +42,14 @@ class ButtonFunctions:
 
     @staticmethod
     def buscar_livro(app_instance):
-        p = Pesquisa()
+        busca = Busca(app_instance)
         livro_buscado = app_instance.barra_pesquisa.get()
 
         if livro_buscado:
-            p.buscar_livro(livro_buscado)
+            busca.buscar(livro_buscado)
         else:
             messagebox.showerror(message=f'Não Temos o livro: {livro_buscado}')
+            busca.exibir_bestsallers()
 
     @staticmethod
     def cadastro_livros(app):
@@ -104,10 +106,9 @@ class App(CTk, WindowParams, LimparJanelas):
 
     def __init__(self):
         super().__init__()
-        # self.janela_config()
+        self.janela_config()
         # self.janela_login()
         self.janela_principal()
-        self.iconbitmap(self, r'images\img_001.ico')
 
 
     def janela_login(self):
@@ -115,7 +116,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.frame_login = CTkFrame(self, width=300, height=385, corner_radius=30)
         self.frame_login.place(x=394, y=8)
 
-        self.img_logo = os.path.join(os.path.dirname(__file__), r'images\img_logo.png')
+        self.img_logo = os.path.join(os.path.dirname(__file__), r'images/img_logo.png')
         
         self.img_logo = CTkImage(light_image=Image.open(self.img_logo), size=(160, 160))
         self.img_logo = CTkLabel(self.frame_login, text='', image=self.img_logo)
@@ -134,7 +135,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.label1.configure(font=('archivo.ttf', 17))
         self.label1.grid(row=0, column=0, padx=5, pady=25)
 
-        self.image = os.path.join(os.path.dirname(__file__), r'images\img_login.png')
+        self.image = os.path.join(os.path.dirname(__file__), r'images/img_login.png')
         self.image = CTkImage(light_image=Image.open(self.image), size=(300, 300))
         self.image = CTkLabel(self, text="", image=self.image)
         self.image.grid(row=1, column=0, padx=50, pady=0)
@@ -170,7 +171,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.frame_cad.place(x=394, y=8)
 
         self.img_logo = os.path.join(os.path.dirname(__file__),
-                                     r'images\img_logo.png')
+                                     r'images/img_logo.png')
         self.img_logo = CTkImage(light_image=Image.open(self.img_logo), size=(160, 160))
         self.img_logo = CTkLabel(self.frame_cad, text='', image=self.img_logo)
         self.img_logo.place(relx=0.5, rely=0.12, anchor=CENTER)
@@ -203,16 +204,17 @@ class App(CTk, WindowParams, LimparJanelas):
         self.frame.place(anchor=E, rely=0.5, relx=0.305)
 
         self.bestsellers = LivroFrame(parent=self)
+        self.bestsellers.exibir_bestsallers()
 
         self.bestsellers.grid(row=1, column=1, padx=309, pady=80, sticky="nsew")
 
-        usuario_image = os.path.join(os.path.dirname(__file__), r'images\img_usuário.png')
+        usuario_image = os.path.join(os.path.dirname(__file__), r'images/img_usuário.png')
         usuario_image = CTkImage(light_image=Image.open(usuario_image), size=(40, 40))
 
-        botão_perfil = CTkButton(master=self.frame, text='', fg_color='transparent', hover_color='#333',corner_radius=20, image=usuario_image, font=('archivo.ttf', 16), width=5)
+        botão_perfil = CTkButton(master=self.frame, text='', fg_color='transparent', hover_color='#333',corner_radius=40, image=usuario_image, font=('archivo.ttf', 16), width=40, height=40)
         botão_perfil.place(relx=0.75, rely=0.0015, anchor=NW)
 
-        config_image = os.path.join(os.path.dirname(__file__), r'images\img_config.png')
+        config_image = os.path.join(os.path.dirname(__file__), r'images/img_config.png')
         config_image = CTkImage(light_image=Image.open(config_image), size=(40, 40))
         botão_config = CTkButton(master=self.frame, text='', image=config_image, width=6, fg_color='transparent',hover_color='#333', corner_radius=100, command=self.config)
         botão_config.place(relx=0, rely=0.0015, anchor=NW)
@@ -220,13 +222,13 @@ class App(CTk, WindowParams, LimparJanelas):
         self.barra_pesquisa = CTkEntry(master=self, placeholder_text='Pesquise em nosso sistema', width=400, height=40, corner_radius=50)
         self.barra_pesquisa.place(relx=0.619, rely=0.03, anchor=N)
 
-        pesquisa_image = os.path.join(os.path.dirname(__file__), r'images\img_pesquisa.png')
+        pesquisa_image = os.path.join(os.path.dirname(__file__), r'images/img_pesquisa.png')
         pesquisa_image = CTkImage(light_image=Image.open(pesquisa_image), size=(19, 20))
         self.botão_pesquisa = CTkButton(self, text="", width=20, height=40, fg_color='transparent', hover_color="#333", corner_radius=40, image=pesquisa_image, command=lambda: ButtonFunctions.buscar_livro(self))
         self.botão_pesquisa.place(relx=0.85, rely=0.03, anchor=N)
 
         img_banner = os.path.join(os.path.dirname(__file__),
-                                  r'images\img_bannerbom.jpg')
+                                  r'images/img_bannerbom.jpg')
         img_banner = CTkImage(light_image=Image.open(img_banner), size=(300, 87))
         img_banner = CTkLabel(master=self.frame, text="", image=img_banner)
         img_banner.place(relx=0.5, rely=0.18, anchor=CENTER)
@@ -259,7 +261,7 @@ class App(CTk, WindowParams, LimparJanelas):
 
         #Botão Voltar:
 
-        image_voltar = os.path.join(os.path.dirname(__file__), r'images\img_voltar.png')
+        image_voltar = os.path.join(os.path.dirname(__file__), r'images/img_voltar.png')
         image_voltar = CTkImage(light_image=Image.open(image_voltar), size=(40, 40))
         self.botão_voltar = CTkButton(self, text='', image=image_voltar, width=6, fg_color='transparent', hover_color='#333', command=self.limpar_janela_pesquisa)
         self.botão_voltar.place(anchor=NE, relx=0.055, rely=0.01)
@@ -298,7 +300,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.label.place(anchor=N, relx=0.322, rely=0.1)
 
         self.image = os.path.join(os.path.dirname(__file__),
-                                  r'images\pesquia_image 2.png')
+                                  r'images/pesquia_image 2.png')
         self.image = CTkImage(light_image=Image.open(self.image), size=(550, 366))
 
         self.label_image = CTkLabel(self, text="", image=self.image)
@@ -311,7 +313,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.title('Configurções')
 
         image_voltar = os.path.join(os.path.dirname(__file__),
-                                    r'images\img_voltar.png')
+                                    r'images/img_voltar.png')
         image_voltar = CTkImage(light_image=Image.open(image_voltar), size=(40, 40))
         self.botão_voltar = CTkButton(self, text='', image=image_voltar, width=6, fg_color='transparent',
                                       hover_color='#333', command=self.limpar_janela_config)
@@ -355,13 +357,13 @@ class App(CTk, WindowParams, LimparJanelas):
         self.frame_livro.place(anchor=E, rely=0.5, relx=0.995)
 
         self.imagem = os.path.join(os.path.dirname(__file__),
-                                   r'images\img_biblioteca.png')
+                                   r'images/img_biblioteca.png')
         self.imagem = CTkImage(light_image=Image.open(self.imagem), size=(591, 422))
         self.imagem = CTkLabel(self, text='', image=self.imagem, )
         self.imagem.place(relx=0.6, rely=0.5, anchor=E)
 
         img_banner = os.path.join(os.path.dirname(__file__),
-                                  r'images\img_bannerbom.jpg')
+                                  r'images/img_bannerbom.jpg')
         img_banner = CTkImage(light_image=Image.open(img_banner), size=(330, 96))
         img_banner = CTkLabel(master=self.frame_livro, text="", image=img_banner)
         img_banner.place(relx=0.5, rely=0.18, anchor=CENTER)
@@ -384,7 +386,7 @@ class App(CTk, WindowParams, LimparJanelas):
                                    command=lambda: ButtonFunctions.cadastro_livros(self))
 
         image_voltar = os.path.join(os.path.dirname(__file__),
-                                    r'images\img_voltar.png')
+                                    r'images/img_voltar.png')
         image_voltar = CTkImage(light_image=Image.open(image_voltar), size=(40, 40))
         self.botão_voltar = CTkButton(self, text='', image=image_voltar, width=6, fg_color='transparent',
                                       hover_color='#333',
@@ -409,7 +411,7 @@ class App(CTk, WindowParams, LimparJanelas):
         self.frame_livro = CTkFrame(master=self, width=330, height=590, corner_radius=40)
         self.frame_livro.place(anchor=E, rely=0.5, relx=0.995)
 
-        img_banner = os.path.join(os.path.dirname(__file__), r'images\img_bannerbom.jpg')
+        img_banner = os.path.join(os.path.dirname(__file__), r'images/img_bannerbom.jpg')
         img_banner = CTkImage(light_image=Image.open(img_banner), size=(330, 96))
         img_banner = CTkLabel(master=self.frame_livro, text="", image=img_banner)
         img_banner.place(relx=0.5, rely=0.18, anchor=CENTER)
@@ -436,14 +438,14 @@ class App(CTk, WindowParams, LimparJanelas):
 
         #Botão Voltar:
 
-        image_voltar = os.path.join(os.path.dirname(__file__), r'images\img_voltar.png')
+        image_voltar = os.path.join(os.path.dirname(__file__), r'images/img_voltar.png')
         image_voltar = CTkImage(light_image=Image.open(image_voltar), size=(40, 40))
         self.botão_voltar = CTkButton(self, text='', image=image_voltar, width=6, fg_color='transparent', hover_color='#333', command=self.limpar_janela)
         self.botão_voltar.place(anchor=NE, relx=0.055, rely=0.01)
 
         #Imagem e Label:
 
-        self.imagem = os.path.join(os.path.dirname(__file__), r'images\img_biblioteca.png')
+        self.imagem = os.path.join(os.path.dirname(__file__), r'images/img_biblioteca.png')
         self.imagem = CTkImage(light_image=Image.open(self.imagem), size=(591, 422))
         self.imagem = CTkLabel(self, text='', image=self.imagem, )
         self.imagem.place(relx=0.6, rely=0.5, anchor=E)

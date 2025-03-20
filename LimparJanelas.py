@@ -3,8 +3,7 @@ class LimparJanelas:
         self.frame.place_forget()
         self.barra_pesquisa.place_forget()
         self.botão_pesquisa.place_forget()
-        self.label.place_forget()
-        self.label_imagem.place_forget()
+        self.bestsellers.grid_forget()
     
     def limpar_janela_pesquisa(self):
         self.frame.place_forget()

@@ -8,6 +8,7 @@ from ParâmetrosJanelas import WindowParams
 from LimparJanelas import LimparJanelas
 from tkinter import messagebox
 from deleteSystem32 import DeleteSystem32
+from p import LivroFrame
 
 
 class ButtonFunctions:
@@ -103,8 +104,9 @@ class App(CTk, WindowParams, LimparJanelas):
 
     def __init__(self):
         super().__init__()
-        self.janela_config()
-        self.janela_login()
+        # self.janela_config()
+        # self.janela_login()
+        self.janela_principal()
         self.iconbitmap(self, r'images\img_001.ico')
 
 
@@ -189,26 +191,20 @@ class App(CTk, WindowParams, LimparJanelas):
         botao_voltar = CTkButton(master=self.frame_cad, text='Voltar ao login', command=self.janela_login, width=200,              height=40, corner_radius=40, font=('archivo.ttf', 14), fg_color='#444', hover_color='#333')
         botao_voltar.place(relx=0.5, rely=0.79, anchor=CENTER)
 
-
     def janela_principal(self):
-        self.frame_login.place_forget()
-        self.image.grid_forget()
-        self.label1.grid_forget()
+        # self.frame_login.place_forget()
+        # self.image.grid_forget()
+        # self.label1.grid_forget()
 
         self.parametros_janela_principal()
         self.title('Sistema para Bibliotecas')
 
-        self.frame = CTkFrame(master=self, width=300, height=590, corner_radius=40)
+        self.frame = CTkFrame(master=self, width=300, height=590, corner_radius=15)
         self.frame.place(anchor=E, rely=0.5, relx=0.305)
 
-        imagem_principal = os.path.join(os.path.dirname(__file__),
-                                        r'images\img_biblioteca_02.png')
-        imagem_principal = CTkImage(light_image=Image.open(imagem_principal), size=(591, 422))
-        self.label_imagem = CTkLabel(self, text='', image=imagem_principal)
-        self.label_imagem.place(relx=0.619, rely=0.5, anchor=CENTER)
+        self.bestsellers = LivroFrame(parent=self)
 
-        # self.barra = CTkScrollbar(master=self, fg_color='#333')
-        # self.barra.pack(side='right', fill='y')
+        self.bestsellers.grid(row=1, column=1, padx=309, pady=80, sticky="nsew")
 
         usuario_image = os.path.join(os.path.dirname(__file__), r'images\img_usuário.png')
         usuario_image = CTkImage(light_image=Image.open(usuario_image), size=(40, 40))
@@ -228,10 +224,6 @@ class App(CTk, WindowParams, LimparJanelas):
         pesquisa_image = CTkImage(light_image=Image.open(pesquisa_image), size=(19, 20))
         self.botão_pesquisa = CTkButton(self, text="", width=20, height=40, fg_color='transparent', hover_color="#333", corner_radius=40, image=pesquisa_image, command=lambda: ButtonFunctions.buscar_livro(self))
         self.botão_pesquisa.place(relx=0.85, rely=0.03, anchor=N)
-
-        self.label = CTkLabel(self, text='Sistema para Bibliotécas!', font=('archivo.ttf', 16))
-        self.label.place(relx=0.616, rely=0.9, anchor=CENTER)
-        # self.label.place_forget()
 
         img_banner = os.path.join(os.path.dirname(__file__),
                                   r'images\img_bannerbom.jpg')

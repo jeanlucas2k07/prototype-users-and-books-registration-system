@@ -8,7 +8,7 @@ class WindowParams:
     def parametros_janela_principal(self):
         self.geometry('1000x600')
         self.resizable(False, False)
-        icon_path = "images/img_001.png"
+        icon_path = "assets/images/img_001.png"
         icon = ImageTk.PhotoImage(Image.open(icon_path))  
         self.wm_iconphoto(True, icon)
 

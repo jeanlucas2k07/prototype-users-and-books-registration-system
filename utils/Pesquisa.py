@@ -1,5 +1,5 @@
 import tkinter as tk
-from DataBaseManager import DatabaseManager
+from database.DataBaseManager import DatabaseManager
 from tkinter import messagebox, scrolledtext
 
 class Pesquisa(DatabaseManager):

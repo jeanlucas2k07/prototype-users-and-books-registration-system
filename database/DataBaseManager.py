@@ -3,13 +3,13 @@ import os
 
 class DatabaseManager:
     def __init__(self) -> None:
-        self.db_dir = 'data'
-        self.db_name = 'database.db'
-        self.db_path = os.path.join(self.db_dir, self.db_name)
-        os.makedirs(self.db_dir, exist_ok=True)
+        self.__db_dir = 'data'
+        self.__db_name = 'database.db'
+        self.__db_path = os.path.join(self.__db_dir, self.__db_name)
+        os.makedirs(self.__db_dir, exist_ok=True)
     
     def _connect(self) -> sq.Connection:
-        return sq.connect(self.db_path)
+        return sq.connect(self.__db_path)
     
     def _execute_query(self, query: str, params: tuple = ()) -> None:
         try:

@@ -1,7 +1,7 @@
 import requests
 import tkinter as tk
 from tkinter import filedialog
-from bancoImagens import Images
+from database.bancoImagens import Images
 
 class Livros:
     @staticmethod

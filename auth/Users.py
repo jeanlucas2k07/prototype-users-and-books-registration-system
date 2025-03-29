@@ -1,6 +1,6 @@
 import sqlite3 as sq
 from tkinter import messagebox
-from DataBaseManager import DatabaseManager
+from database.DataBaseManager import DatabaseManager
 
 class Banco(DatabaseManager):
     def __init__(self):
@@ -11,7 +11,8 @@ class Banco(DatabaseManager):
         query = '''
             CREATE TABLE IF NOT EXISTS acessos (
                 email TEXT NOT NULL,
-                senha TEXT NOT NULL
+                senha TEXT NOT NULL,
+                id INTEGER PRIMARY KEY AUTOINCREMENT
             )
         '''
         try:

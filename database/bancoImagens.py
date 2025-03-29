@@ -1,4 +1,4 @@
-from DataBaseManager import DatabaseManager
+from database.DataBaseManager import DatabaseManager
 from typing import Union
 import sqlite3 as sq
 

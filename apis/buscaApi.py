@@ -1,5 +1,5 @@
-from google_books_api import Livros
-from p import LivroFrame
+from .google_books_api import Livros
+from utils.p import LivroFrame
 
 class Busca(LivroFrame):
     def __init__(self, parent):

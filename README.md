@@ -1,1 +1,3 @@
-This code's a my project using pyhton to my school work, it's a registration system with a relational database using a python library called sqlite3. it's too has a graphical interface uses the libaries Customtkinter and Tkinter. The code too has a login and registration user system. It's a simple code, but it's also can a startpoint from a any bigger project.
+Projeto de Busca e Recomendação de Livros
+
+Este projeto começou como um trabalho escolar, mas decidi fazer algumas mudanças nele. Atualmente, adicionei a API do Google Books e estou planejando implementar um sistema de busca e um sistema de recomendação. Trabalho no projeto quando tenho tempo e sempre estou melhorando suas funcionalidades.
